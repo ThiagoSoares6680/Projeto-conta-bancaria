@@ -28,6 +28,26 @@ class UserRepository {
 
         return user
     }
+
+    async findByUsername(username: string): Promise<User> {
+        const query = `
+            SELECT username, uuid, balance
+            FROM aplication_user
+            WHERE username = $1
+        `;
+
+        const values = [username];
+
+        const { rows} = await db.query<User>(query,values)
+        const [ user ] = rows;
+
+        return user
+    }
+
+
+    
+
+
     async create(user: User): Promise<string>{
         const script = `
         INSERT INTO aplication_user (

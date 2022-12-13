@@ -1,5 +1,6 @@
 import { Router, Request, Response, NextFunction } from 'express'
 import {StatusCodes} from 'http-status-codes'
+import { CreateUser } from '../controllers/controllerUsers'
 import useRepository from '../repositories/repositories'
 
 
@@ -18,11 +19,7 @@ routerUsers.get('/users/:uuid', async (req:Request<{uuid: string}>, res:Response
 })
 
 
-routerUsers.post('/users', async (req:Request, res:Response, next:NextFunction)=>{
-    const user = req.body
-    const uuid = await useRepository.create(user)
-    res.status(StatusCodes.CREATED).send({ uuid })
-})   
+routerUsers.post('/users', new CreateUser().handle )   
 
 
 routerUsers.put('/users/:uuid', async (req:Request<{uuid: string}>, res:Response, next:NextFunction)=>{

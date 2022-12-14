@@ -14,6 +14,7 @@ class UserRepository {
         return rows || []
     }
     
+    
     async findById(uuid: string): Promise<User> {
         const query = `
             SELECT username, uuid, balance
@@ -29,6 +30,7 @@ class UserRepository {
         return user
     }
 
+
     async findByUsername(username: string): Promise<User> {
         const query = `
             SELECT username, uuid, balance
@@ -43,9 +45,6 @@ class UserRepository {
 
         return user
     }
-
-
-    
 
 
     async create(user: User): Promise<string>{
@@ -64,6 +63,8 @@ class UserRepository {
         const [newUser] = rows;
         return newUser.uuid;
     }
+
+
     async update(user:User): Promise<void>{
         const script = `
         UPDATE aplication_user
@@ -75,6 +76,7 @@ class UserRepository {
         const values = [user.username, user.password, user.uuid];
         await db.query(script, values)
     }
+
 
     async delete(uuid: string): Promise<void>{
         const script = `

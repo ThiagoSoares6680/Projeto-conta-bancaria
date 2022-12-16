@@ -1,6 +1,10 @@
 import { Router, Request, Response, NextFunction } from 'express'
 import {StatusCodes} from 'http-status-codes'
-import userRepository from '../repositories/repositories'
+import  UsersRepository from '../repositories/user.repository'
+import AccountRepository from '../repositories/account.repository'
+import User from '../model/user.model'
+
+
 
 class CreateUser{
     async handle(req: Request, res: Response, next:NextFunction){
@@ -15,7 +19,7 @@ class CreateUser{
         }
         
         // Verifica se nome de usuario já exite
-        const userExists = await userRepository.findByUsername(username)
+        const userExists = await UsersRepository.findByUsername(username)
 
         if(userExists){
             return res.status(StatusCodes.BAD_REQUEST).json({mensagem:`Nome do usuario ja existe`})
@@ -26,8 +30,10 @@ class CreateUser{
         const regex = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z]).{8,15}$/
 
         if(regex.test(senha)){
-            const uuid = await userRepository.create(user)
-            return res.status(StatusCodes.CREATED).json(user)
+            
+            const accountId = await AccountRepository.create({balance: 100})
+            const newUser = await UsersRepository.create({ accountId, ...user })
+            return res.status(StatusCodes.CREATED).json(newUser)
 
         }else{
             return res.status(StatusCodes.BAD_REQUEST).json({mensagem:`Senha não contem os requisitos minimos de segurança`})

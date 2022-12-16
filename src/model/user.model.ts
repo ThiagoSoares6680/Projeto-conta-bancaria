@@ -1,9 +1,9 @@
 
 type User = {
-    uuid: string,
+    id?: string,
     username: string,
     password: string,
-    balance: string
+    accountId: string
 }
 
 export default User;

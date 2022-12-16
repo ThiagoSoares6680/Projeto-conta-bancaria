@@ -2,12 +2,12 @@ import db from "../db";
 import User from "../model/user.model";
 
 
-class UserRepository {
+class UsersRepository {
     
     async findAllUsers(): Promise<User[]> {
         const query = `
-            SELECT username, uuid, balance
-            FROM aplication_user
+            SELECT username, id
+            FROM Users
         `;
 
         const { rows } = await db.query<User>(query)
@@ -15,14 +15,14 @@ class UserRepository {
     }
     
     
-    async findById(uuid: string): Promise<User> {
+    async findById(id: string): Promise<User> {
         const query = `
-            SELECT username, uuid, balance
-            FROM aplication_user
+            SELECT username, id
+            FROM Users
             WHERE uuid = $1
         `;
 
-        const values = [uuid];
+        const values = [id];
 
         const { rows} = await db.query<User>(query,values)
         const [ user ] = rows;
@@ -33,8 +33,8 @@ class UserRepository {
 
     async findByUsername(username: string): Promise<User> {
         const query = `
-            SELECT username, uuid, balance
-            FROM aplication_user
+            SELECT username, id
+            FROM Users
             WHERE username = $1
         `;
 
@@ -47,47 +47,47 @@ class UserRepository {
     }
 
 
-    async create(user: User): Promise<string>{
+    async create(user: User): Promise<User>{
         const script = `
-        INSERT INTO aplication_user (
+        INSERT INTO Users (
             username,
             password,
-            balance
+            accountId
         )
-        VALUES ($1, crypt($2, 'my_salt'),$3)
-        RETURNING uuid
+        VALUES ($1, crypt($2, 'my_salt'), $3)
+        RETURNING id,username, accountId
         `;
-        const values = [user.username, user.password, user.balance];
+        const values = [user.username, user.password, user.accountId];
 
-        const {rows} =  await db.query<{uuid: string}>(script, values);
+        const {rows} =  await db.query<User>(script, values);
         const [newUser] = rows;
-        return newUser.uuid;
+        return newUser;
     }
 
 
     async update(user:User): Promise<void>{
         const script = `
-        UPDATE aplication_user
+        UPDATE Users
         SET 
             username = $1,
             password =  crypt($2, 'my_salt')
-        WHERE uuid = $3
+        WHERE id = $3
         `;
-        const values = [user.username, user.password, user.uuid];
+        const values = [user.username, user.password, user.id];
         await db.query(script, values)
     }
 
 
-    async delete(uuid: string): Promise<void>{
+    async delete(id: string): Promise<void>{
         const script = `
-        DELETE FROM aplication_user
+        DELETE FROM Users
         WHERE uuid = $1
         `
-        const values = [uuid]
+        const values = [id]
         await db.query(script, values)
     }
 
 
 }
 
-export default new UserRepository
+export default new UsersRepository

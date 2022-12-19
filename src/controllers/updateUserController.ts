@@ -1,4 +1,4 @@
-import { Router, Request, Response, NextFunction } from 'express'
+import {  Request, Response, NextFunction } from 'express'
 import { StatusCodes } from 'http-status-codes'
 import  UsersRepository  from '../repositories/user.repository'
 

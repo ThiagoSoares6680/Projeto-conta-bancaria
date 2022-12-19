@@ -1,8 +1,8 @@
-import { Router, Request, Response, NextFunction } from 'express'
-import {StatusCodes} from 'http-status-codes'
+import { Request, Response, NextFunction } from 'express'
+import { StatusCodes } from 'http-status-codes'
 import  UsersRepository from '../repositories/user.repository'
 import AccountRepository from '../repositories/account.repository'
-import User from '../model/user.model'
+
 
 
 class createUsersController{

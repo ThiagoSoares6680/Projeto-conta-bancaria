@@ -5,8 +5,7 @@ import AccountRepository from '../repositories/account.repository'
 import User from '../model/user.model'
 
 
-
-class CreateUser{
+class createUsersController{
     async handle(req: Request, res: Response, next:NextFunction){
 
         const user  = req.body
@@ -14,7 +13,7 @@ class CreateUser{
         const password =  req.body.password
     
         // Verifica se o username contem mais de 3 caracteres 
-        if(username.length < 3){
+        if(username.length <= 3){
             return res.status(StatusCodes.BAD_REQUEST).json({mensagem:`O nome deve conter pelo menos 3 caracteres`})
         }
         
@@ -45,4 +44,4 @@ class CreateUser{
 }    
    
 
-export { CreateUser }
+export { createUsersController }

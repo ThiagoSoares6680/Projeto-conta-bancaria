@@ -1,10 +1,17 @@
 import { Router, Request, Response, NextFunction } from 'express'
 import {StatusCodes} from 'http-status-codes'
-import { CreateUser } from '../controllers/controllerUsers'
+import { createUsersController } from '../controllers/createUsersController'
+import { deleteUserController } from '../controllers/deleteUserController'
+import { updateUserController } from '../controllers/updateUserController'
 import Users from '../repositories/user.repository'
 
 
 const routerUsers = Router()
+
+
+const CreateUsersController = new createUsersController()
+const DeleteUserController = new deleteUserController()
+const UpdateUserController = new updateUserController()
 
 routerUsers.get('/users', async (req:Request, res:Response, next:NextFunction)=>{
     const user = await Users.findAllUsers()
@@ -19,23 +26,8 @@ routerUsers.get('/users/:id', async (req:Request<{id: string}>, res:Response, ne
 })
 
 
-routerUsers.post('/users', new CreateUser().handle )   
-
-
-routerUsers.put('/users/:id', async (req:Request<{id: string}>, res:Response, next:NextFunction)=>{
-    const uuid = req.params.id
-    const modifica = req.body
-    modifica.uuid = uuid
-
-    await Users.update(modifica)
-
-    res.status(StatusCodes.OK).json('Login alterado')
-})
-
-routerUsers.delete('/users/:id', async (req:Request<{id: string}>, res:Response, next:NextFunction)=>{
-    const uuid =  req.params.id
-    await Users.delete(uuid)
-    res.status(StatusCodes.OK).json('login excluido')
-})
+routerUsers.post('/users', CreateUsersController.handle )   
+routerUsers.put('/users/:id', UpdateUserController.handle )
+routerUsers.delete('/users/:id', DeleteUserController.handle )
 
 export default routerUsers

@@ -19,7 +19,7 @@ class UsersRepository {
         const query = `
             SELECT username, id
             FROM Users
-            WHERE uuid = $1
+            WHERE id = $1
         `;
 
         const values = [id];
@@ -81,7 +81,7 @@ class UsersRepository {
     async delete(id: string): Promise<void>{
         const script = `
         DELETE FROM Users
-        WHERE uuid = $1
+        WHERE id = $1
         `
         const values = [id]
         await db.query(script, values)

@@ -24,12 +24,10 @@ class createUsersController{
             return res.status(StatusCodes.BAD_REQUEST).json({mensagem:`Nome do usuario ja existe`})
         }
 
-        // Verifica com regex a composição da senha
-        const senha = password
+        // Regex de verificacao
         const regex = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z]).{8,15}$/
 
-        if(regex.test(senha)){
-            
+        if(regex.test(password)){
             const accountId = await AccountRepository.create({balance: 100})
             const newUser = await UsersRepository.create({ accountId, ...user })
             return res.status(StatusCodes.CREATED).json(newUser)

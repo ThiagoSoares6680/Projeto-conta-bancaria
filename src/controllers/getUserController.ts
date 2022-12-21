@@ -22,4 +22,5 @@ class getUsersController{
     }
 }
 
+
 export {getUserController, getUsersController}

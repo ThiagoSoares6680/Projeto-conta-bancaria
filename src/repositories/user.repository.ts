@@ -30,6 +30,20 @@ class UsersRepository {
         return user
     }
 
+    async findUserNamePassword(username:string, password:string): Promise<User | null> {
+        const query = `
+            SELECT id, username
+            FROM Users
+            WHERE username = $1
+            AND password = crypt($2, 'my_salt')
+        `
+        const value = [username, password]
+        const {rows} = await db.query<User>(query,value)
+        const [user] = rows
+        return user || null;
+
+    }
+
 
     async findByUsername(username: string): Promise<User> {
         const query = `

@@ -6,7 +6,7 @@ class UsersRepository {
     
     async findAllUsers(): Promise<User[]> {
         const query = `
-            SELECT username, id
+            SELECT username, id 
             FROM Users
         `;
 
@@ -17,7 +17,7 @@ class UsersRepository {
     
     async findById(id: string): Promise<User> {
         const query = `
-            SELECT username, id
+            SELECT username, id, accountId
             FROM Users
             WHERE id = $1
         `;
@@ -66,12 +66,12 @@ class UsersRepository {
         INSERT INTO Users (
             username,
             password,
-            accountId
+            accountid
         )
         VALUES ($1, crypt($2, 'my_salt'), $3)
-        RETURNING id,username, accountId
+        RETURNING id,username, accountid
         `;
-        const values = [user.username, user.password, user.accountId];
+        const values = [user.username, user.password, user.accountid];
 
         const {rows} =  await db.query<User>(script, values);
         const [newUser] = rows;

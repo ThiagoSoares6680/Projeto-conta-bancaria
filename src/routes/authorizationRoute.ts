@@ -31,8 +31,12 @@ authorizationRouter.post('/token', async (req: Request, res: Response, next: Nex
 
         const user = await UsersRepository.findUserNamePassword(username, password)
 
-        console.log(user)
+        if(!user){
+            throw new ForbiddenError('Senha ou usuario invalido')
+        }
+        return res.json(user)
 
+        
     }catch(error){
         next(error)
     }

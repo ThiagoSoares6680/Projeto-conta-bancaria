@@ -17,6 +17,15 @@ class AccountRepository{
         const [newAccount] = rows;
         return newAccount.id;
     }
-}
+
+    async deleteAccount(id: string): Promise<void>{
+        const script = `
+        DELETE FROM Accounts
+        WHERE id = $1
+        `
+        const values = [id]
+        await db.query(script, values)
+    }
+}   
 
 export default new AccountRepository

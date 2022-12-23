@@ -28,8 +28,9 @@ class createUsersController{
         const regex = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z]).{8,15}$/
 
         if(regex.test(password)){
-            const accountId = await AccountRepository.create({balance: 100})
-            const newUser = await UsersRepository.create({ accountId, ...user })
+
+            const accountid = await AccountRepository.create({balance: 100})
+            const newUser = await UsersRepository.create({ accountid, ...user })
             return res.status(StatusCodes.CREATED).json(newUser)
 
         }else{

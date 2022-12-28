@@ -1,5 +1,5 @@
 import { NextFunction, Router, Request, Response } from "express";
-import ForbiddenError from "../model/error/forbidden.error.model";
+import { StatusCodes } from "http-status-codes";
 import  UsersRepository  from "../repositories/user.repository"
 
 
@@ -12,13 +12,13 @@ authorizationRouter.post('/token', async (req: Request, res: Response, next: Nex
         const authorizationHeader = req.headers['authorization'];
 
         if(!authorizationHeader){
-            throw new ForbiddenError('Credenciais não informadas!')
+            return res.status(StatusCodes.FORBIDDEN).json({mensagem:'Credenciais não informadas!'})
         }
 
         const [authenticationType, token] = authorizationHeader.split(' ');
 
         if(authenticationType !== 'Basic' || !token){
-            throw new ForbiddenError('Tipo de autenticação invalida!')
+            return res.status(StatusCodes.FORBIDDEN).json({mensagem:'Tipo de autenticação invalida!'})
         }
 
         const tokenContent = Buffer.from(token, 'base64').toString('utf-8')
@@ -26,13 +26,13 @@ authorizationRouter.post('/token', async (req: Request, res: Response, next: Nex
         const [username, password] = tokenContent.split(':')
 
         if(!password || !username){
-            throw new ForbiddenError('Credenciais não preenchidas!')
+            return res.status(StatusCodes.FORBIDDEN).json({mensagem:'Credenciais não preenchidas!'})
         }
 
         const user = await UsersRepository.findUserNamePassword(username, password)
 
         if(!user){
-            throw new ForbiddenError('Senha ou usuario invalido')
+            return res.status(StatusCodes.FORBIDDEN).json({mensagem:'Senha ou usuario invalido'})
         }
         return res.json(user)
 

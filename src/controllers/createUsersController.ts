@@ -25,7 +25,7 @@ class createUsersController{
         }
 
         // Regex de verificacao
-        const regex = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z]).{8,15}$/
+        const regex = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[$*&@#])(?=.*[a-z]).{8,15}$/
 
         if(regex.test(password)){
 

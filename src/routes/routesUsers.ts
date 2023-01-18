@@ -16,7 +16,6 @@ const CreateUsersController = new createUsersController()
 const DeleteUserController = new deleteUserController()
 const UpdateUserController = new updateUserController()
 
-
 // Rotas
 routerUsers.get('/users', GetUsersController.handle)
 routerUsers.get('/users/:id', GetUserController.handle)

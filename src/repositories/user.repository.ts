@@ -9,11 +9,9 @@ class UsersRepository {
             SELECT username, id 
             FROM Users
         `;
-
         const { rows } = await db.query<User>(query)
         return rows || []
     }
-    
     
     async findById(id: string): Promise<User> {
         const query = `
@@ -26,7 +24,6 @@ class UsersRepository {
 
         const { rows} = await db.query<User>(query,values)
         const [ user ] = rows;
-
         return user
     }
 
@@ -41,9 +38,7 @@ class UsersRepository {
         const {rows} = await db.query<User>(query,value)
         const [user] = rows
         return user || null;
-
     }
-
 
     async findByUsername(username: string): Promise<User> {
         const query = `
@@ -59,7 +54,6 @@ class UsersRepository {
 
         return user
     }
-
 
     async create(user: User): Promise<User>{
         const script = `
@@ -78,7 +72,6 @@ class UsersRepository {
         return newUser;
     }
 
-
     async update(user:User): Promise<void>{
         const script = `
         UPDATE Users
@@ -91,7 +84,6 @@ class UsersRepository {
         await db.query(script, values)
     }
 
-
     async delete(id: string): Promise<void>{
         const script = `
         DELETE FROM Users
@@ -100,7 +92,6 @@ class UsersRepository {
         const values = [id]
         await db.query(script, values)
     }
-
 
 }
 

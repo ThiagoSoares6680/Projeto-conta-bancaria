@@ -49,7 +49,7 @@ class UsersRepository {
 
         const values = [username];
 
-        const { rows} = await db.query<User>(query,values)
+        const { rows } = await db.query<User>(query,values)
         const [ user ] = rows;
 
         return user

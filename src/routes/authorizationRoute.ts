@@ -42,6 +42,8 @@ authorizationRouter.post('/token', async (req: Request, res: Response, next: Nex
     const wjt = JWT.sign(jwtPayload, secretKey, jwtOptions)
 
     return res.status(StatusCodes.OK).json(wjt)
+
+    
 })
 
 

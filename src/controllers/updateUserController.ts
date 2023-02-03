@@ -14,31 +14,24 @@ class updateUserController{
         const regex = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[$*&@#])(?=.*[a-z]).{8,15}$/
         
 
-            const userExists = await userRepository.findByUsername(username)
+        const userExists = await userRepository.findByUsername(username)
 
-            if(!userExists){
-                
-                if(!regex.test(password)){
-                    return res.status(StatusCodes.FORBIDDEN).json({mensagem:`Senha não contem os requisitos minimos de segurança`}) 
-                }
-                
-                if(username.length <= 3){
-                    return res.status(StatusCodes.FORBIDDEN).json({mensagem:`Login precisa ter pelo menos 3 caracteres`})
-                }
+        if(userExists && userExists.id != id ){
+            return res.status(StatusCodes.BAD_REQUEST).json({mensagem: `Nome do usuario já existe.`})
+        }
 
-            }
+        if(!regex.test(password)){
+            return res.status(StatusCodes.FORBIDDEN).json({mensagem:`Senha não contem os requisitos minimos de segurança`}) 
+        }
+        
+        if(username.length <= 3){
+            return res.status(StatusCodes.FORBIDDEN).json({mensagem:`Login precisa ter pelo menos 3 caracteres`})
+        }
 
-            if( userExists != undefined ){
 
-                if(userExists.id != id){
-                    return res.status(StatusCodes.FORBIDDEN).json({mensagem: `Nome do usuario já existe.`})
-                }
-
-            }
-
-            alterar.id = id
-            await UsersRepository.update(alterar)
-            res.status(StatusCodes.OK).json({mensagem:`Login altarado`})
+        alterar.id = id
+        await UsersRepository.update(alterar)
+        res.status(StatusCodes.OK).json({mensagem:`Login altarado`})
     }
 }
 

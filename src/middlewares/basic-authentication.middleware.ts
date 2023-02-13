@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { StatusCodes } from "http-status-codes";
 import  UsersRepository  from "../repositories/user.repository"
 
+
 async function basicAuthnticationMiddleware(req: Request, res: Response, next:NextFunction) {
 
     const authorizationHeader = req.headers['authorization']

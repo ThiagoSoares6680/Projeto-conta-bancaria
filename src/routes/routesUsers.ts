@@ -4,6 +4,8 @@ import { createUsersController } from '../controllers/createUsersController'
 import { deleteUserController } from '../controllers/deleteUserController'
 import { updateUserController } from '../controllers/updateUserController'
 import { getUsersController } from '../controllers/getUserController'
+import wjtAthenticationMiddleware from "../middlewares/jwt-authentication.middleware"
+
 
 
 
@@ -17,7 +19,7 @@ const DeleteUserController = new deleteUserController()
 const UpdateUserController = new updateUserController()
 
 // Rotas
-routerUsers.get('/users', GetUsersController.handle)
+routerUsers.get('/users', wjtAthenticationMiddleware, GetUsersController.handle)
 routerUsers.get('/users/:id', GetUserController.handle)
 routerUsers.post('/users', CreateUsersController.handle)    
 routerUsers.put('/users/:id', UpdateUserController.handle)

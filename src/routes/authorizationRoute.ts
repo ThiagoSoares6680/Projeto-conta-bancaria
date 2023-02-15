@@ -8,7 +8,7 @@ import wjtAthenticationMiddleware from "../middlewares/jwt-authentication.middle
 const authorizationRouter = Router()
 
 authorizationRouter.post('/token/validate', wjtAthenticationMiddleware, async (req: Request, res: Response, next:NextFunction) => {
-    res.sendStatus(StatusCodes.OK)
+    res.json({mensagem:'JWT valido'})
     
 } )
 

@@ -20,7 +20,7 @@ const UpdateUserController = new updateUserController()
 
 // Rotas
 routerUsers.get('/users', wjtAthenticationMiddleware, GetUsersController.handle)
-routerUsers.get('/users/:id', GetUserController.handle)
+routerUsers.get('/users/:id', wjtAthenticationMiddleware, GetUserController.handle)
 routerUsers.post('/users', CreateUsersController.handle)    
 routerUsers.put('/users/:id', UpdateUserController.handle)
 routerUsers.delete('/users/:id', DeleteUserController.handle)

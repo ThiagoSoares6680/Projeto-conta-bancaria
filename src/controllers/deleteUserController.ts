@@ -6,12 +6,16 @@ import Users from '../repositories/user.repository'
 
 class deleteUserController{
     async handle(req:Request<{id: string}>, res:Response, next:NextFunction){
-        const id = req.params.id
-        const user = await userRepository.findById(id)
-        const accountId = user.accountid
-        await Users.delete(id)
-        await account.deleteAccount(accountId)
-        res.status(StatusCodes.OK).json({mensagem:`Login Excluido!`})
+        try{
+            const id = req.params.id
+            const user = await userRepository.findById(id)
+            const accountId = user.accountid
+            await Users.delete(id)
+            await account.deleteAccount(accountId)
+            res.status(StatusCodes.OK).json({mensagem:`Login Excluido!`})
+        }catch(error){
+            res.status(StatusCodes.FORBIDDEN).json({mensagem:"ID invalido"})
+        }
     }
 }
 

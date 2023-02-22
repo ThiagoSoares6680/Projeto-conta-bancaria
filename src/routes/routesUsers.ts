@@ -1,4 +1,5 @@
 import { Router } from 'express'
+import Cors from 'cors'
 import { getUserController } from '../controllers/getUserController'
 import { createUsersController } from '../controllers/createUsersController'
 import { deleteUserController } from '../controllers/deleteUserController'
@@ -7,9 +8,11 @@ import { getUsersController } from '../controllers/getUserController'
 import wjtAthenticationMiddleware from "../middlewares/jwt-authentication.middleware"
 
 
-
-
 const routerUsers = Router()
+
+routerUsers.use(Cors({
+   
+}))
 
 // instancia das rotas
 const GetUserController = new getUserController()
@@ -21,8 +24,8 @@ const UpdateUserController = new updateUserController()
 // Rotas
 routerUsers.get('/users', wjtAthenticationMiddleware, GetUsersController.handle)
 routerUsers.get('/users/:id', wjtAthenticationMiddleware, GetUserController.handle)
-routerUsers.post('/users', CreateUsersController.handle)    
-routerUsers.put('/users/:id', UpdateUserController.handle)
-routerUsers.delete('/users/:id', DeleteUserController.handle)
+routerUsers.post('/users',  CreateUsersController.handle)    
+routerUsers.put('/users/:id', wjtAthenticationMiddleware, UpdateUserController.handle)
+routerUsers.delete('/users/:id', wjtAthenticationMiddleware, DeleteUserController.handle)
 
 export default routerUsers

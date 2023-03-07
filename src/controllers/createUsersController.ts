@@ -4,7 +4,6 @@ import  UsersRepository from '../repositories/user.repository'
 import AccountRepository from '../repositories/account.repository'
 
 
-
 class createUsersController{
     async handle(req: Request, res: Response, next:NextFunction){
         
@@ -28,7 +27,7 @@ class createUsersController{
         const regex = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[$*&@#])(?=.*[a-z]).{8,15}$/
 
         if(regex.test(password)){
-            const accountid = await AccountRepository.create({balance: 100})
+            const accountid = await AccountRepository.create({balance: 100,})
             const newUser = await UsersRepository.create({ accountid, ...user })
             return res.status(StatusCodes.CREATED).json(newUser)
         }else{

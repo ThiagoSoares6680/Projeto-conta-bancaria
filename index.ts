@@ -4,6 +4,7 @@ import router from './src/routes/routesUsers'
 import statusRoutes from './src/routes/status.routes'
 import wjtAthenticationMiddleware from "./src/middlewares/jwt-authentication.middleware"
 
+
 const app = Express()
 
 //configuraçoes da aplicação

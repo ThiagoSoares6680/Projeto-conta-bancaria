@@ -1,4 +1,5 @@
 type Account = {
+
     id?: string
     balance: Number
 }

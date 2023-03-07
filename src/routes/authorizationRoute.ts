@@ -30,5 +30,4 @@ authorizationRouter.post('/token',basicAuthnticationMiddleware, async (req: Requ
     
 })
 
-
 export default authorizationRouter

@@ -18,19 +18,17 @@ async function basicAuthnticationMiddleware(req: Request, res: Response, next:Ne
 
     const tokenContent = Buffer.from(token, 'base64').toString('utf-8')
 
-    const [password, username] = tokenContent.split(':')
+    const [username, password] = tokenContent.split(':')
 
-    if(!password || !username){
+    if(!username || !password){
         return res.status(StatusCodes.FORBIDDEN).json({mensagem:'Credenciais não preenchidas!'})
     }
 
-    const user = await UsersRepository.findUserNamePassword(password, username)
-
+    const user = await UsersRepository.findUserNamePassword(username, password)
 
     if(!user){
         return res.status(StatusCodes.FORBIDDEN).json({mensagem:'Senha ou usuario invalido'})
     }
-
     
     req.user = user;
     next()

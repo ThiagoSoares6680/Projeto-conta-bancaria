@@ -15,7 +15,7 @@ class transactionsDeposit{
             return res.status(StatusCodes.FORBIDDEN).json({mensagem:'Valor de deposito insuficiente'})
         }
 
-        account.balance = value + valueBody
+        account.balance = Number(value) + Number(valueBody)
 
         account.id = id
         const total = await UserTransactions.update(account)

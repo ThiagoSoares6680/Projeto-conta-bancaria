@@ -5,7 +5,7 @@ type User = {
     username: string,
     password: string,
     accountid: string,
-    balance: string,
+    balance: number,
 }
 
 export default User;

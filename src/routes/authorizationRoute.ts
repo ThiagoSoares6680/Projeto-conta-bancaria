@@ -26,7 +26,7 @@ authorizationRouter.post('/token',basicAuthnticationMiddleware, async (req: Requ
 
     const jwt = JWT.sign(jwtPayload, secretKey, jwtOptions)
 
-    return res.status(StatusCodes.OK).json({token:jwt})
+    return res.status(StatusCodes.OK).json({token:jwt, user})
     
 })
 

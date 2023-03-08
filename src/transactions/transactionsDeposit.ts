@@ -8,14 +8,14 @@ class transactionsDeposit{
         const valueBody = req.body.value
         const id = req.params.id
         const account = await UserTransactions.findTransectionsId(id)
-        let value = account.balance
+        let valueAccount = account.balance
         
         
         if(valueBody <= 0){
             return res.status(StatusCodes.FORBIDDEN).json({mensagem:'Valor de deposito insuficiente'})
         }
 
-        account.balance = Number(value) + Number(valueBody)
+        account.balance = Number(valueAccount) + Number(valueBody)
 
         account.id = id
         const total = await UserTransactions.update(account)

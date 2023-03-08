@@ -8,6 +8,7 @@ import { getUsersController } from '../controllers/getUserController'
 import wjtAthenticationMiddleware from "../middlewares/jwt-authentication.middleware"
 import { transactionsDeposit } from "../transactions/transactionsDeposit"
 import { transactionsWithdraw } from "../transactions/transactionsWithdraw"
+import { transactionsTransfer } from "../transactions/transactionsTransfer"
 
 
 const routerUsers = Router()
@@ -23,6 +24,7 @@ const DeleteUserController = new deleteUserController()
 const UpdateUserController = new updateUserController()
 const TransactionsDeposit = new transactionsDeposit()
 const TransactionsWithdraw = new transactionsWithdraw()
+const TransactionsTransfer = new transactionsTransfer()
 
 // Rotas
 routerUsers.get('/users', wjtAthenticationMiddleware, GetUsersController.handle)
@@ -35,5 +37,6 @@ routerUsers.delete('/users/:id', wjtAthenticationMiddleware, DeleteUserControlle
 
 routerUsers.post('/users/transactions/:id',TransactionsDeposit.handle)
 routerUsers.post('/users/transactions/swithdraw/:id',TransactionsWithdraw.handle)
+routerUsers.post('/users/transactions/transfer/:id', TransactionsTransfer.handle)
 
 export default routerUsers

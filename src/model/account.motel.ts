@@ -1,7 +1,7 @@
 type Account = {
 
     id?: string
-    balance: Number
+    balance: number
 }
 
 export default Account;

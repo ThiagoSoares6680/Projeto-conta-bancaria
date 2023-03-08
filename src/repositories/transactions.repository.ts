@@ -30,6 +30,8 @@ class UserTransactions{
         const values = [user.balance, user.id];
         await db.query(script, values)
     }
+    
+    
 }
 
 export default new UserTransactions

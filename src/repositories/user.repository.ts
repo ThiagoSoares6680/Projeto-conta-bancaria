@@ -42,7 +42,7 @@ class UsersRepository {
 
     async findByUsername(username: string): Promise<User> {
         const query = `
-            SELECT username, id
+            SELECT username, id, accountId
             FROM Users
             WHERE username = $1
         `;

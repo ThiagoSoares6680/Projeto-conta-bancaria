@@ -1,26 +1,43 @@
 import { Request, Response, NextFunction } from 'express'
 import { StatusCodes } from 'http-status-codes'
-import UserTransactions from '../repositories/transactions.repository'
+import userTransactions from '../repositories/transactions.repository'
+import userRepository from '../repositories/user.repository'
 
 class transactionsDeposit{
     async handle(req: Request<{id: string}>, res: Response, next:NextFunction){
         
-        const valueBody = req.body.value
-        const id = req.params.id
-        const account = await UserTransactions.findTransectionsId(id)
-        let valueAccount = account.balance
+        const paramsId = req.params.id
+        const valueBody = req.body
+        const user2 = await userRepository.findByUsername(valueBody.username)
+        const user1 = await userRepository.findById(paramsId)
+        const account1 = await userTransactions.findTransectionsId(user1.accountid)
+        const valueAccount1 = account1.balance
+
+        if(valueAccount1 < valueBody.value){
+            return res.status(StatusCodes.FORBIDDEN).json({mensagem:`Valor insuficinete para transacao`})
+        }
         
+        if(!user2){
+            return res.status(StatusCodes.FORBIDDEN).json({mensagem: `O nome ${valueBody.username} nao tem conta cadastrada`})
+        }
+
+        const account2 = await userTransactions.findTransectionsId(user2.accountid)
+        const valueAccount2 = account2.balance
         
         if(valueBody <= 0){
             return res.status(StatusCodes.FORBIDDEN).json({mensagem:'Valor de deposito insuficiente'})
         }
 
-        account.balance = Number(valueAccount) + Number(valueBody)
+        account2.balance = Number(valueAccount2) + Number(valueBody.value)
+        account1.balance = Number(valueAccount1) - Number(valueBody.value)
 
-        account.id = id
-        const total = await UserTransactions.update(account)
-        res.status(StatusCodes.OK).json(`Deposito com sucesso, Saldo: ${account.balance}`)
+        account1.id = user1.accountid
+        const total1 = await userTransactions.update(account1)
+
+        account2.id = user2.accountid
+        const total2 = await userTransactions.update(account2)
+        return res.status(StatusCodes.OK).json(`Deposito com sucesso, Beneficiario: ${account2.username}, Valor de tranferencia: ${ valueBody.value }`)     
     }
 }
 
-export {transactionsDeposit}
+export { transactionsDeposit }

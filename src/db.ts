@@ -1,6 +1,6 @@
 import { Pool } from 'pg'
 
-const connectionString = 'postgres://ufpggiwx:9k7WmBjyYHfGFcxlypXZzbKgzoLC3RJp@kesavan.db.elephantsql.com/ufpggiwx'
+const connectionString = 
 
 const db =  new Pool({connectionString})
 

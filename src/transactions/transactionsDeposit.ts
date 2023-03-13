@@ -8,21 +8,24 @@ class transactionsDeposit{
         
         const paramsId = req.params.id
         const valueBody = req.body
-        const user2 = await userRepository.findByUsername(valueBody.username)
         const user1 = await userRepository.findById(paramsId)
+        const user2 = await userRepository.findByUsername(valueBody.username)
         const account1 = await userTransactions.findTransectionsId(user1.accountid)
         const valueAccount1 = account1.balance
+        const account2 = await userTransactions.findTransectionsId(user2.accountid)
+        const valueAccount2 = account2.balance
 
-        if(valueAccount1 < valueBody.value){
-            return res.status(StatusCodes.FORBIDDEN).json({mensagem:`Valor insuficinete para transacao`})
-        }
-        
         if(!user2){
             return res.status(StatusCodes.FORBIDDEN).json({mensagem: `O nome ${valueBody.username} nao tem conta cadastrada`})
         }
 
-        const account2 = await userTransactions.findTransectionsId(user2.accountid)
-        const valueAccount2 = account2.balance
+        if(user1.id == user2.id){
+            return res.status(StatusCodes.FORBIDDEN).json({mensagem:`Não é possivel fazer tranferencia para si mesmo!`})
+        }
+
+        if(valueAccount1 < valueBody.value){
+            return res.status(StatusCodes.FORBIDDEN).json({mensagem:`Valor insuficinete para transacao`})
+        }
         
         if(valueBody <= 0){
             return res.status(StatusCodes.FORBIDDEN).json({mensagem:'Valor de deposito insuficiente'})

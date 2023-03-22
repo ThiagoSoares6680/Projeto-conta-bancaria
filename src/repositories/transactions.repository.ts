@@ -1,9 +1,9 @@
 import db from "../db";
 import User from "../model/user.model";
-import Account from "../model/account.motel"
+import Transaction from "../model/transection.model";
 
 
-class UserTransactions{
+class Transactions{
 
     async findTransectionsId(id: string): Promise<User> {
         const query = `
@@ -20,18 +20,29 @@ class UserTransactions{
         return user
     }
 
-    async update(user: User): Promise<void>{
+    async create(transaction: Transaction): Promise<Transaction>{
         const script = `
-        UPDATE Accounts
-        SET
-            balance = $1
-        where id = $2
+        INSERT INTO Transactions (
+            debitedAccountid,
+            creditedAccountid,
+            value,
+            createdAt
+        )
+        VALUES ($1, $2, $3, $4)
+        RETURNING debitedAccountid, creditedAccountid, value, createdAt
         `;
-        const values = [user.balance, user.id];
-        await db.query(script, values)
+        const values = [
+            transaction.debitedAccountid, 
+            transaction.creditedAccountid, 
+            transaction.value, 
+            transaction.createdAt
+        ];
+
+        const {rows} =  await db.query<Transaction>(script, values);
+        const [newTransaction] = rows;
+        return newTransaction;
     }
-    
     
 }
 
-export default new UserTransactions
+export default new Transactions

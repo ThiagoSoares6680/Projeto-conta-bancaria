@@ -57,7 +57,7 @@ class UsersRepository {
 
     async create(user: User): Promise<User>{
         const script = `
-        INSERT INTO Users (
+        INSERT INTO Transactions (
             username,
             password,
             accountid

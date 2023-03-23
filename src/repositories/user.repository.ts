@@ -15,9 +15,10 @@ class UsersRepository {
     
     async findById(id: string): Promise<User> {
         const query = `
-            SELECT username, id, accountId
-            FROM Users
-            WHERE id = $1
+        SELECT  u.username, u.id, p.balance, u.accountid 
+        FROM users as u
+        JOIN Accounts as p ON u.accountid = p.id
+        WHERE u.id = $1
         `;
 
         const values = [id];
@@ -42,16 +43,16 @@ class UsersRepository {
 
     async findByUsername(username: string): Promise<User> {
         const query = `
-            SELECT username, id, accountId
-            FROM Users
-            WHERE username = $1
+        SELECT  u.username, u.id, p.balance, u.accountid 
+        FROM users as u
+        JOIN Accounts as p ON u.accountid = p.id
+        WHERE u.username = $1
         `;
 
         const values = [username];
 
-        const { rows } = await db.query<User>(query,values)
+        const { rows} = await db.query<User>(query,values)
         const [ user ] = rows;
-
         return user
     }
 

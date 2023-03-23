@@ -9,8 +9,7 @@ class getUserController{
     async handle(req:Request<{id: string}>, res:Response, next:NextFunction){
         const id = req.params.id
         const users = await userRepository.findById(id)
-        const account = await UserTransactions.findTransectionsId(users.accountid)
-        res.status(StatusCodes.OK).json({mensagem: `balance atual: ${account.balance} `,  users})
+        res.status(StatusCodes.OK).json({mensagem: users})
     }
 }
 

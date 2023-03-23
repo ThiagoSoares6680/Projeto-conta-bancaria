@@ -6,7 +6,7 @@ import { deleteUserController } from '../controllers/deleteUserController'
 import { updateUserController } from '../controllers/updateUserController'
 import { getUsersController } from '../controllers/getUserController'
 import wjtAthenticationMiddleware from "../middlewares/jwt-authentication.middleware"
-import { transactionsDeposit } from "../transactions/transactionsUsers"
+import { transactionsDeposit } from "../controllersTransactions/transactions"
 
 const routerUsers = Router()
 routerUsers.use(Cors({

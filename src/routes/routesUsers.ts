@@ -6,7 +6,8 @@ import { deleteUserController } from '../controllers/deleteUserController'
 import { updateUserController } from '../controllers/updateUserController'
 import { getUsersController } from '../controllers/getUserController'
 import wjtAthenticationMiddleware from "../middlewares/jwt-authentication.middleware"
-import { transactionsDeposit } from "../controllersTransactions/transactions"
+import { recordTransactions } from "../controllersTransactions/recordTransactions"
+import { filterTransactions } from "../controllersTransactions/filterTransactions"
 
 const routerUsers = Router()
 routerUsers.use(Cors({
@@ -19,9 +20,12 @@ const GetUsersController = new getUsersController()
 const CreateUsersController = new createUsersController()
 const DeleteUserController = new deleteUserController()
 const UpdateUserController = new updateUserController()
-const TransactionsDeposit = new transactionsDeposit()
+const RecordTransactions = new recordTransactions()
+const FilterTransactions =  new filterTransactions()
+
 
 // Rotas
+
 routerUsers.get('/users', wjtAthenticationMiddleware, GetUsersController.handle)
 routerUsers.get('/users/:id', wjtAthenticationMiddleware, GetUserController.handle)
 routerUsers.post('/users',  CreateUsersController.handle)    
@@ -30,6 +34,7 @@ routerUsers.delete('/users/:id', wjtAthenticationMiddleware, DeleteUserControlle
 
 // Rotas de transacoes
 
-routerUsers.post('/users/transactions/:id',TransactionsDeposit.handle)
+routerUsers.post('/users/transactions/:id',RecordTransactions.handle)
+routerUsers.get('/users/filterTransaction/:id',FilterTransactions.handle)
 
 export default routerUsers

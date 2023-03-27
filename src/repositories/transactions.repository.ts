@@ -27,6 +27,28 @@ class Transactions{
         const [newTransaction] = rows;
         return newTransaction;
     }
+
+    async findCashIn(debitedAccountid: string): Promise<Transaction[]> {
+        const query = `
+        SELECT * FROM transactions
+        WHERE debitedAccountid = $1
+        `;
+        const values = [debitedAccountid];
+
+        const { rows } = await db.query<Transaction>(query, values)
+        return rows 
+    }
+
+    async findCashOut(creditedAccountid: string): Promise<Transaction[]> {
+        const query = `
+        SELECT * FROM transactions
+        WHERE creditedAccountid = $1
+        `;
+        const values = [creditedAccountid];
+
+        const { rows } = await db.query<Transaction>(query, values)
+        return rows 
+    }
     
 }
 

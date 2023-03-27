@@ -6,7 +6,7 @@ import AccountRepository from '../repositories/account.repository'
 import Transaction from '../model/transaction.model'
 import User from '../model/user.model'
 
-class transactionsDeposit{
+class recordTransactions{
     async handle(req: Request<{id: string}>, res: Response, next:NextFunction){
         
         const paramsId = req.params.id
@@ -61,4 +61,4 @@ class transactionsDeposit{
     }
 }
 
-export { transactionsDeposit }
+export { recordTransactions }

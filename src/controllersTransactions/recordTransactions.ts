@@ -14,7 +14,6 @@ class recordTransactions{
         const user1 = await userRepository.findById(paramsId)
         const user2 = await userRepository.findByUsername(valueBody.username)
 
-
         if(!user2){
             return res.status(StatusCodes.FORBIDDEN).json({mensagem: `O nome ${valueBody.username} nao tem conta cadastrada`})
         }

@@ -9,9 +9,9 @@ class filterTransactions{
         let cash = req.body.cash
         const cashOut = await transactionsRepository.findCashIn(id)
         const cashIn = await transactionsRepository.findCashOut(id)
-        const total = {cashIn, cashOut}
+        const total = await transactionsRepository.dateTransaction(id)
 
-        if(cash == "all"){
+        if(cash == "date"){
             return res.status(StatusCodes.OK).json(total)
         }
         if(cash == "cashOut"){

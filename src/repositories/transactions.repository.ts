@@ -49,17 +49,6 @@ class Transactions{
         const { rows } = await db.query<Transaction>(query, values)
         return rows 
     }
-
-    async dateTransaction(dataAccount: string): Promise<Transaction[]> {
-        const query = `
-        SELECT * FROM transactions
-        WHERE creditedAccountid = $1
-        ORDER BY createdat ASC
-        `
-        const values = [dataAccount];
-        const { rows } = await db.query<Transaction>(query, values)
-        return rows 
-    }
     
 }
 

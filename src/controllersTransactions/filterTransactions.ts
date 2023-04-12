@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
 import transactionsRepository from '../repositories/transactions.repository'
 import { StatusCodes } from "http-status-codes";
+import Transaction from '../model/transaction.model';
 
 class filterTransactions{
     async handle(req: Request<{id: string}>, res: Response, next:NextFunction){
@@ -9,10 +10,13 @@ class filterTransactions{
         let cash = req.body.cash
         const cashOut = await transactionsRepository.findCashIn(id)
         const cashIn = await transactionsRepository.findCashOut(id)
-        const total = await transactionsRepository.dateTransaction(id)
 
-        if(cash == "date"){
-            return res.status(StatusCodes.OK).json(total)
+        const all = {
+            cash1: cashIn.concat(cashOut)
+        }
+
+        if(cash == "all"){
+            return res.status(StatusCodes.OK).json(all)
         }
         if(cash == "cashOut"){
            return res.status(StatusCodes.OK).json(cashOut)
@@ -20,7 +24,7 @@ class filterTransactions{
         if(cash == "cashIn"){
             return res.status(StatusCodes.OK).json(cashIn)
         }
-    }   
+    } 
 }
 
 export { filterTransactions }
